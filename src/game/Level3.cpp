@@ -791,7 +791,7 @@ bool ChatHandler::HandleAccountSetGmLevelCommand(const char* args)
     }
 
     /// can set security level only for target with less security and to less security that we have
-    /// This is also reject self apply in fact
+    /// This does not in fact reject self apply because !(self < self)
     if(HasLowerSecurityAccount(NULL,targetAccountId,true))
         return false;
 
@@ -804,7 +804,8 @@ bool ChatHandler::HandleAccountSetGmLevelCommand(const char* args)
         return false;
     }
 
-    if(targetPlayer)
+	/// This will prevent self apply due to self target or no target
+    if(targetPlayer && m_session->GetPlayer()!=targetPlayer)
     {
         ChatHandler(targetPlayer).PSendSysMessage(LANG_YOURS_SECURITY_CHANGED,GetNameLink().c_str(), gm);
         targetPlayer->GetSession()->SetSecurity(gm);
