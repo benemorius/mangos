@@ -758,6 +758,7 @@ bool ChatHandler::HandleAccountSetGmLevelCommand(const char* args)
         arg2 = arg1;
 
         targetAccountId = targetPlayer->GetSession()->GetAccountId();
+		accmgr.GetName(targetAccountId, targetAccountName);
     }
     else
     {
